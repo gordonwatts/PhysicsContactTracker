@@ -48,8 +48,8 @@ namespace InSpireHEPAccess
 
             // Next, lets turn that into a contact card.
             return inspireData
-                .SelectMany(i => i.Authors)
-                .Select(a => a.AsContact());
+                .SelectMany(i => i.Authors.Select(a => (ath: a, id: i.Recid)))
+                .Select(a => a.ath.AsContact(a.id));
         }
     }
 
@@ -60,12 +60,13 @@ namespace InSpireHEPAccess
         /// </summary>
         /// <param name="a"></param>
         /// <returns></returns>
-        public static InSpireContact AsContact (this DataModels.InSpireHEPAccess.DataModels.Author a)
+        public static InSpireContact AsContact(this DataModels.InSpireHEPAccess.DataModels.Author a, long id)
         {
             return new InSpireContact()
             {
                 FirstName = a.FirstName,
-                LastName = a.LastName
+                LastName = a.LastName,
+                InspireRecordID = id,
             };
         }
     }

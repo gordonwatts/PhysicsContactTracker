@@ -10,5 +10,10 @@ namespace InSpireHEPAccess
         public string FirstName { get; internal set; }
 
         public string LastName { get; internal set; }
+
+        public string UniqueID { get; set; }
+
+        // So we can track where in the HEP Names database we are if need be.
+        public long InspireRecordID { get; internal set; }
     }
 }

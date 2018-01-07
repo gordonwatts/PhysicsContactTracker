@@ -123,6 +123,7 @@
     <Compile Include="Activation\ShareTargetActivationHandler.cs" />
     <Compile Include="BackgroundTasks\BackgroundTask.cs" />
     <Compile Include="BackgroundTasks\UpdatePaperPublications.cs" />
+    <Compile Include="Helpers\ContactSync.cs" />
     <Compile Include="Helpers\DataRequestExtensions.cs" />
     <Compile Include="Helpers\EnumToBooleanConverter.cs" />
     <Compile Include="Helpers\Json.cs" />

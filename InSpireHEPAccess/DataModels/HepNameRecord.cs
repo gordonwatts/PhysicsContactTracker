@@ -26,14 +26,14 @@ namespace InSpireHEPAccess.DataModels
             [J("system_control_number")] public SystemControlNumber[] SystemControlNumber { get; set; }
             [J("creation_date")] public string CreationDate { get; set; }
             [J("system_number")] public SystemNumber SystemNumber { get; set; }
-            [J("url")] public Url[] Url { get; set; }
+            //[J("url")] public Url[] Url { get; set; }
             [J("number_of_reviews")] public long NumberOfReviews { get; set; }
             [J("recid")] public long Recid { get; set; }
             [J("persistent_identifiers_keys")] public string[] PersistentIdentifiersKeys { get; set; }
             [J("source_data_found")] public SourceDataFound[] SourceDataFound { get; set; }
             [J("authors")] public Author[] Authors { get; set; }
             [J("version_id")] public string VersionId { get; set; }
-            [J("subject")] public Subject Subject { get; set; }
+            //[J("subject")] public Subject Subject { get; set; }
             [J("filetypes")] public object[] Filetypes { get; set; }
             [J("number_of_authors")] public long NumberOfAuthors { get; set; }
         }

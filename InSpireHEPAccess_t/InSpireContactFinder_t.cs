@@ -19,5 +19,27 @@ namespace InSpireHEPAccess_t
             Assert.AreEqual("Gordon Thomas", info[0].FirstName);
             Assert.AreEqual("Watts", info[0].LastName);
         }
+
+        [TestMethod]
+        public async Task InSpireFindGoodURLDC()
+        {
+            var finder = new InSpireContactFinder();
+            var info = (await finder.FindContactAsync(new Uri("http://inspirehep.net/record/1024481?ln=en")))
+                .ToArray();
+            Assert.AreEqual(1, info.Length);
+            Assert.AreEqual("David", info[0].FirstName);
+            Assert.AreEqual("Curtin", info[0].LastName);
+        }
+
+        [TestMethod]
+        public async Task InSpireFindGoodURLDW()
+        {
+            var finder = new InSpireContactFinder();
+            var info = (await finder.FindContactAsync(new Uri("http://inspirehep.net/record/1020448?ln=en")))
+                .ToArray();
+            Assert.AreEqual(1, info.Length);
+            Assert.AreEqual("Daniel O.", info[0].FirstName);
+            Assert.AreEqual("Whiteson", info[0].LastName);
+        }
     }
 }

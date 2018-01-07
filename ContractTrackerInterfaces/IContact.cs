@@ -13,7 +13,17 @@ namespace ContractTrackerInterfaces
     /// </remarks>
     public interface IContact
     {
+        // First and last name for the contact
         string FirstName { get; }
         string LastName { get; }
+
+        /// <summary>
+        /// A unique identification string that is used by the Windows Contact system. Do not set.
+        /// </summary>
+        /// <remarks>
+        /// This is set by the UWP Contact system and used to track what is going on. No need to do anything
+        /// but store any value set.
+        /// </remarks>
+        string UniqueID { get; set; }
     }
 }

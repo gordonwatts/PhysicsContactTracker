@@ -22,6 +22,13 @@ namespace ContactMapper.ViewModels
             var finder = new InSpireContactFinder();
             var me = await finder.FindContactAsync(new Uri("http://inspirehep.net/record/983968?ln=en"));
             People.Add(new ContactViewModel(me.First()));
+            var david = await finder.FindContactAsync(new Uri("http://inspirehep.net/record/1024481?ln=en"));
+            People.Add(new ContactViewModel(david.First()));
+            var daniel = await finder.FindContactAsync(new Uri("http://inspirehep.net/record/1020448?ln=en"));
+            People.Add(new ContactViewModel(daniel.First()));
+
+            await ContactSync.SyncContactList(new[] { me.First(), david.First(), daniel.First() });
+            await ContactSync.SyncContactList(new[] { me.First(), david.First(), daniel.First() });
         }
 
         /// <summary>
