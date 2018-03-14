@@ -9,8 +9,13 @@ namespace ContactTrackerLib.Database
     /// Represents a place where all contacts are stored. They can be saved, updated, etc.
     /// Think of it like a local cache
     /// </summary>
-    interface IContactStore
+    public interface IContactStore
     {
+        /// <summary>
+        /// Stream out items as they are updated.
+        /// </summary>
+        IObservable<ContactDB.UpdateInfo> ContactUpdateStream { get; }
+
         // Add a contact to the store.
         void Add(IContact contactToAdd);
     }
