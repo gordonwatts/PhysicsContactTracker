@@ -1,14 +1,10 @@
 ﻿using ContractTrackerInterfaces;
 using System;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
-using System.Reactive.Subjects;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reactive;
 using System.Collections.Immutable;
-using System.Reactive.Linq;
 using System.Linq;
+using System.Reactive.Linq;
+using System.Reactive.Subjects;
 
 namespace ContactTrackerLib.Database
 {
