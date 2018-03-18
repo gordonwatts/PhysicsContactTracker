@@ -21,7 +21,7 @@ namespace ContactTrackerLib.Database
         {
             // Each time a new contact comes in from any contact store, we need to update and maintain our local
             // contact list.
-            _ContactStoreSubscriptions.Add(_contactStoreStream
+            _contactStoreSubscriptions.Add(_contactStoreStream
                 .Subscribe(c => UpdateLocalStore(c)));
         }
 
@@ -78,7 +78,7 @@ namespace ContactTrackerLib.Database
         /// <summary>
         /// Track subscriptions we are keeping.
         /// </summary>
-        private List<IDisposable> _ContactStoreSubscriptions = new List<IDisposable>();
+        private List<IDisposable> _contactStoreSubscriptions = new List<IDisposable>();
 
         /// <summary>
         /// Add a new contact store to our list. We'll keep everything up to date from it.
@@ -94,7 +94,7 @@ namespace ContactTrackerLib.Database
             // Connect ourselves to the store. The first thing it should do is send
             // us a complete list of contacts. We'll then forward that on to everyone.
             _preferedStore = s;
-            _ContactStoreSubscriptions.Add(s.ContactUpdateStream.Subscribe(_contactStoreStream));
+            _contactStoreSubscriptions.Add(s.ContactUpdateStream.Subscribe(_contactStoreStream));
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace ContactTrackerLib.Database
         /// </summary>
         public void Dispose()
         {
-            foreach (var c in _ContactStoreSubscriptions)
+            foreach (var c in _contactStoreSubscriptions)
             {
                 c.Dispose();
             }
