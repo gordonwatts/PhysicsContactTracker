@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using System.Linq;
+using ContactTrackerLib;
+using System.Composition;
+using Utils;
 
 namespace InSpireHEPAccess
 {
@@ -29,6 +32,11 @@ namespace InSpireHEPAccess
     /// </remarks>
     public class InSpireContactFinder : IContactFinder
     {
+        public InSpireContactFinder()
+        {
+            MEFComposer.Resolve(this);
+        }
+
         /// <summary>
         /// Look for a contact on Inspire given a particular web page.
         /// </summary>
@@ -53,6 +61,12 @@ namespace InSpireHEPAccess
         }
 
         /// <summary>
+        /// Pointer to the code that does the work of fetching data from the big-bad internet.
+        /// </summary>
+        [Import()]
+        public IWebInterface _webAccess { get; set; }
+
+        /// <summary>
         /// This is a HepNames query. Return the person it is attached to.
         /// </summary>
         /// <param name="pointsToContact"></param>
@@ -63,8 +77,7 @@ namespace InSpireHEPAccess
             var jsonUri = pointsToContact.AsBuilder().AddQuery("of=recjson").Uri;
 
             // Build the contact and make sure we can parse JSON into an object.
-            var request = new WebClient();
-            var jsonData = await request.DownloadStringTaskAsync(jsonUri);
+            var jsonData = await _webAccess.DownloadString(jsonUri);
             var inspireData = Newtonsoft.Json.JsonConvert.DeserializeObject<DataModels.InSpireHEPAccess.DataModels.Welcome[]>(jsonData);
 
             // Only return real author records. If this uri points to something, but it isn't
