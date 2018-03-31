@@ -55,6 +55,24 @@ namespace InSpireHEPAccess_t
             Assert.AreEqual(1, count);
         }
 
+        [TestMethod]
+        public void UpdateNoChange()
+        {
+            Assert.Fail("Trigger an update - but there is nothing that changes, so we shouldn't see an update message.");
+        }
+
+        [TestMethod]
+        public void UpdateFirstName()
+        {
+            Assert.Fail("Trigger an update - first name changes");
+        }
+
+        [TestMethod]
+        public void UpdateLastName()
+        {
+            Assert.Fail("Trigger an update - last name changes");
+        }
+
         /// <summary>
         /// Create a simple contact
         /// </summary>
