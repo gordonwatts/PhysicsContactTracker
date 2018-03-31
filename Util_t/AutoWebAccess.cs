@@ -28,7 +28,7 @@ namespace Util_t
         /// <summary>
         /// Hold onto whatever we need to keep track of.
         /// </summary>
-        private class uriResponse
+        private class UriResponse
         {
             /// <summary>
             /// See if this uri matches
@@ -41,7 +41,7 @@ namespace Util_t
             public string response;
         }
 
-        private static List<uriResponse> _responses = null;
+        private static List<UriResponse> _responses = null;
 
         /// <summary>
         /// Reset everything to null
@@ -59,8 +59,8 @@ namespace Util_t
         /// <param name="fileInfo"></param>
         public static void AddUriResponse(string v, FileInfo fileInfo)
         {
-            _responses = _responses ?? new List<uriResponse>();
-            _responses.Add(new uriResponse() { checker = s => s == v, response = File.ReadAllText(fileInfo.FullName) });
+            _responses = _responses ?? new List<UriResponse>();
+            _responses.Add(new UriResponse() { checker = s => s == v, response = File.ReadAllText(fileInfo.FullName) });
         }
     }
 }
