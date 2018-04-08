@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reactive.Subjects;
 using System.Reactive;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ContractTrackerLib_t
 {
@@ -135,6 +136,11 @@ namespace ContractTrackerLib_t
             };
             _sender.OnNext(info);
             _mylist = _mylist.Add(contactToAdd);
+        }
+
+        public Task Update()
+        {
+            throw new NotImplementedException();
         }
     }
 }

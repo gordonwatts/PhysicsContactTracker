@@ -1,10 +1,14 @@
 ﻿using ContactTrackerLib.Database;
 using ContractTrackerInterfaces;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Composition;
 using System.Linq;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Threading.Tasks;
+using Utils;
 using static ContactTrackerLib.Database.ContactDB;
 
 namespace InSpireHEPAccess
@@ -14,6 +18,14 @@ namespace InSpireHEPAccess
     /// </summary>
     public class InSpireContactStore : IContactStore, IDisposable
     {
+        /// <summary>
+        /// Make sure all our references are resolved.
+        /// </summary>
+        public InSpireContactStore()
+        {
+            MEFComposer.Resolve(this);
+        }
+
         /// <summary>
         /// Return a stream on which we will send all contacts we know about. Make sure to bundle up any we know about already
         /// if we are attached to late.
@@ -69,6 +81,64 @@ namespace InSpireHEPAccess
         public void Dispose()
         {
             _contactStoreStream.OnCompleted();
+        }
+
+        private class ContactChangesActions
+        {
+            public string _name;
+            public Func<InSpireContact, InSpireContact, bool> _testForChange;
+        }
+
+        private static List<ContactChangesActions> ContactChangedMessages = new List<ContactChangesActions>
+        {
+            new ContactChangesActions() { _name = "First Name", _testForChange = (old_c, new_c) => old_c.FirstName != new_c.FirstName},
+            new ContactChangesActions() { _name = "Last Name", _testForChange = (old_c, new_c) => old_c.LastName != new_c.LastName},
+        };
+
+        /// <summary>
+        /// Update all of our contacts from the main store. If anything has changed, then propagate it along.
+        /// </summary>
+        /// <returns></returns>
+        public async Task Update()
+        {
+            foreach (var contact in _localContactStore)
+            {
+                var newVersion = await RefreshContact(contact);
+
+                // Check for changes.
+                var changes = ContactChangedMessages
+                    .Where(c => c._testForChange(contact, newVersion))
+                    .Select(c => c._name)
+                    .ToArray();
+
+                // If there are changes, we need to send it around.
+                if (changes.Any())
+                {
+                    var text = changes
+                        .Aggregate((old, newc) => $"{old}, {newc}");
+
+                    _localContactStore = _localContactStore.Remove(contact);
+                    _localContactStore = _localContactStore.Add(newVersion);
+
+                    _contactStoreStream.OnNext(new UpdateInfo() { _contacts = new[] { newVersion }, _reason = UpdateReason.Update, _updateReasonText = text });
+                }
+            }
+        }
+
+        /// <summary>
+        /// Pointer to the code that does the work of fetching data from the big-bad internet.
+        /// </summary>
+        [Import()]
+        public IWebInterface _webAccess { get; set; }
+
+        /// <summary>
+        /// Use the HEPNAMEs DB to refresh the data in this contact.
+        /// </summary>
+        /// <param name="contact"></param>
+        /// <returns></returns>
+        private Task<InSpireContact> RefreshContact(InSpireContact contact)
+        {
+            return contact.UpdateContact(_webAccess);
         }
     }
 }

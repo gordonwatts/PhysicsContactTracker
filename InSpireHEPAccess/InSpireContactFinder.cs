@@ -73,47 +73,7 @@ namespace InSpireHEPAccess
         /// <returns></returns>
         private async Task<IEnumerable<IContact>> FindContactFromHEPNamesAsync(Uri pointsToContact)
         {
-            // Rebuild the query with of=recjson to get back the proper response.
-            var jsonUri = pointsToContact.AsBuilder().AddQuery("of=recjson").Uri;
-
-            // Build the contact and make sure we can parse JSON into an object.
-            var jsonData = await _webAccess.DownloadString(jsonUri);
-            var inspireData = Newtonsoft.Json.JsonConvert.DeserializeObject<DataModels.InSpireHEPAccess.DataModels.Welcome[]>(jsonData);
-
-            // Only return real author records. If this uri points to something, but it isn't
-            // something we know how to work with, then we report this as an error.
-            // TODO: Extend this so you can put in a paper or similar.
-            var inspireDataFiltered = inspireData
-                .Where(i => i.Collection.Any(c => c.Primary == "HEPNAMES"));
-            if (inspireData.Length != 0 && inspireDataFiltered.Count() == 0)
-            {
-                throw new BadInSpireUrlException($"The Uri {pointsToContact.OriginalString} points to a valid InSpire record, but not a HEPNAMES one!");
-            }
-
-            // Next, lets turn that into a contact card.
-            return inspireDataFiltered
-                .Where(i => i.Collection.Any(c => c.Primary == "HEPNAMES"))
-                .SelectMany(i => i.Authors.Select(a => (ath: a, id: i.Recid)))
-                .Select(a => a.ath.AsContact(a.id));
+            return await InspireContactAccess.FindContactFromHEPNamesAsync(pointsToContact, _webAccess);
         }
     }
-
-    static class InSpireContactFinderUtils
-    {
-        /// <summary>
-        /// Helper method to seperate the conversion logic out
-        /// </summary>
-        /// <param name="a"></param>
-        /// <returns></returns>
-        public static InSpireContact AsContact(this DataModels.InSpireHEPAccess.DataModels.Author a, long id)
-        {
-            return new InSpireContact()
-            {
-                FirstName = a.FirstName,
-                LastName = a.LastName,
-                InspireRecordID = id,
-            };
-        }
-    }
-
 }

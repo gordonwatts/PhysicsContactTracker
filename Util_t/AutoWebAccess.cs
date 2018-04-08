@@ -14,7 +14,7 @@ namespace Util_t
         public Task<string> DownloadString(Uri uri)
         {
             var r = _responses
-                .Where(rs => rs.checker(uri.OriginalString))
+                ?.Where(rs => rs.checker(uri.OriginalString))
                 .FirstOrDefault();
 
             if (r == null)

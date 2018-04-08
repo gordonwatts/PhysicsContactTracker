@@ -15,7 +15,7 @@ namespace ContactMapper.ViewModels
     {
         public Visibility FeedbackLinkVisibility => Visibility.Collapsed; //Microsoft.Services.Store.Engagement.StoreServicesFeedbackLauncher.IsSupported() ? Visibility.Visible : Visibility.Collapsed;
 
-        public async void LaunchFeedbackHub()
+        public /*async*/ void LaunchFeedbackHub()
         {
             //TODO: figure out why this isn't working correctly.
             // This launcher is part of the Store Services SDK https://docs.microsoft.com/en-us/windows/uwp/monetize/microsoft-store-services-sdk

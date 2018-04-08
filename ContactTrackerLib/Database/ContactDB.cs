@@ -102,7 +102,8 @@ namespace ContactTrackerLib.Database
         /// </summary>
         public enum UpdateReason
         {
-            Add, Remove
+            Add, Remove,
+            Update
         }
 
         /// <summary>
@@ -112,6 +113,7 @@ namespace ContactTrackerLib.Database
         {
             public UpdateReason _reason;
             public IContact[] _contacts;
+            public string _updateReasonText;
         }
 
         /// <summary>
