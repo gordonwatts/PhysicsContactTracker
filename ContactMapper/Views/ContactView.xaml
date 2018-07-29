@@ -10,6 +10,6 @@
     d:DesignWidth="400">
 
     <Grid>
-        <TextBlock Name="Name"/>
+        <TextBlock Name="ContactName"/>
     </Grid>
 </UserControl>

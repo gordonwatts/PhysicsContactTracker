@@ -97,18 +97,10 @@
         </DataTemplate>
     </Page.Resources>
 
-    <controls:HamburgerMenu
+    <NavigationView
             x:Name="NavigationMenu"
-            UseNavigationViewWhenPossible="True"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
-            DisplayMode="{x:Bind ViewModel.DisplayMode, Mode=OneWay}"
             IsPaneOpen="{x:Bind ViewModel.IsPaneOpen, Mode=TwoWay}"
-            ItemTemplate="{StaticResource NavigationMenuItemDataTemplate}"
-            ItemsSource="{x:Bind ViewModel.PrimaryItems}"
-            OptionsItemTemplate="{StaticResource NavigationMenuItemDataTemplate}"
-            OptionsItemsSource="{x:Bind ViewModel.SecondaryItems}"
-            PaneBackground="{ThemeResource SystemControlBackgroundAltHighBrush}"
-            PaneForeground="{ThemeResource SystemControlForegroundBaseHighBrush}"
             cm:Message.Attach="[Event ItemInvoked] = [Action ItemSelected($eventArgs)]; [Event ItemInvoked] = [Action ItemSelected($eventArgs)]"
             >
         <Grid Background="{ThemeResource SystemControlBackgroundAltHighBrush}">
@@ -134,5 +126,5 @@
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-    </controls:HamburgerMenu>
+    </NavigationView>
 </Page>

@@ -26,6 +26,6 @@ namespace ContactMapper.ViewModels
         /// <summary>
         /// Return the name for easy display in a view.
         /// </summary>
-        public string Name => $"{_contact.LastName}, {_contact.FirstName}";
+        public string ContactName => $"{_contact.LastName}, {_contact.FirstName}";
     }
 }

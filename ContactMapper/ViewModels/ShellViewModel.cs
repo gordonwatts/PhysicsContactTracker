@@ -138,6 +138,7 @@ namespace ContactMapper.ViewModels
             SecondaryItems.Add(new ShellNavigationItem("Shell_Settings".GetLocalized(), Symbol.Setting, typeof(SettingsViewModel)));
         }
 
+#if notyet
         public void ItemSelected(HamburgetMenuItemInvokedEventArgs args)
         {
             if (DisplayMode == SplitViewDisplayMode.CompactOverlay || DisplayMode == SplitViewDisplayMode.Overlay)
@@ -147,6 +148,7 @@ namespace ContactMapper.ViewModels
 
             Navigate(args.InvokedItem);
         }
+#endif
 
         private void NavigationService_Navigated(object sender, NavigationEventArgs e)
         {
